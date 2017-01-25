@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Add Book and Review</title>
+  </head>
+  <body>
+    <h6>Logged in as {{request.session.alias}}</h6>
+    <a href="{% url 'books:index' %}">Home</a>
+    {% if 'id' in request.session %}
+      <a href="{% url 'books:logout' %}">Logout</a>
+    {% else %}
+      <a href="{% url 'login:login' %}">Login</a>
+    {% endif %}
+    {% if messages %}
+      <ul>
+      {% for message in messages %}
+        <li{% if message.tags %} class="{{message.tags}}"{% endif %}>{{message}}</li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+    <h2>Add a New Book Title and a Review:</h2>
+    <form action="{% url 'books:add_book' %}" method="post">
+      {% csrf_token %}
+      <label for="title">Book Title: </label>
+      <input type="text" name="title">
+      <label for="author">Author: </label>
+      <select name="author">
+        {% for author in authors %}
+          <option value="{{author.name}}">{{author.name}}</option>
+        {% endfor %}
+      </select>
+      <label for="review">Review: </label>
+      <textarea name="review" rows="8" cols="80"></textarea>
+      <label for="rating">Rating: </label>
+      <select name="rating">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+      <input type="submit" name="submit" value="Add Book and Review">
+    </form>
+    <form id="author_add" action="{% url 'books:add_author' %}" method="post">
+      {% csrf_token %}
+      <label for="author">Add an Author: </label>
+      <input type="text" name="author">
+      <input type="submit" name="submit" value="Add Author">
+    </form>
+  </body>
+</html>

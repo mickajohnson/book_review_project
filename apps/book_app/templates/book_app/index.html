@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Books Home</title>
+  </head>
+  <body>
+    <h3>Welcome {{request.session.alias}}!</h3>
+    <a href="{% url 'books:add' %}">Add Book and Review</a>
+    {% if 'id' in request.session %}
+      <a href="{% url 'books:logout' %}">Logout</a>
+    {% else %}
+      <a href="{% url 'login:login' %}">Login</a>
+    {% endif %}
+    <h3>Recent Book Reviews</h3>
+    {% for review in currentthree %}
+      <hr>
+      <p>Rating: {{review.rating}}</p>
+      <p><a href="{% url 'books:show_user' review.user.id %}">{{review.user.first_name}}</a> says: {{review.content}}</p>
+      <i>Posted on {{review.created_at}}</i>
+    {% endfor %}
+    <h3>Other Books With Reviews</h3>
+    <div id="other_books">
+      {% for book in books %}
+        <p><a href="{% url 'books:show_book' id=book.id %}">{{book.title}}</a></p>
+      {% endfor %}
+    </div>
+  </body>
+</html>

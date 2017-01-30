@@ -37,7 +37,7 @@ def register(request):
             return redirect(reverse('login:index'))
         else:
             request.session["alias"] = user["user"].alias
-            request.session["id"] = user["newuser"].id
+            request.session["id"] = user["user"].id
             return redirect('books:index')
     else:
         return redirect(reverse('login:index'))

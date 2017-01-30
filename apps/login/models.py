@@ -52,7 +52,7 @@ class UserManager(models.Manager):
                 hash_pw = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
                 user = User(alias=alias, first_name=first_name, last_name=last_name, email=email, hash_pw=hash_pw)
                 user.save()
-                return {"newuser": user}
+                return {"user": user}
             except:
                 return {"errors": ["Email already registered"]}
 ## returns an object with either {errors: list of errors}, or {user: user object}
